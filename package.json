@@ -1,0 +1,34 @@
+{
+  "name": "picture-list-maker",
+  "version": "1.0.0",
+  "description": "make a list of all pictures and attributes from a domain",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/frontend-fxs/picture-list-maker.git"
+  },
+  "keywords": [
+    "puppeteer",
+    "node",
+    "csv",
+    "picture",
+    "list",
+    "maker",
+    "fxstreet"
+  ],
+  "author": "Oriol Pérez Olivares",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/frontend-fxs/picture-list-maker/issues"
+  },
+  "homepage": "https://github.com/frontend-fxs/picture-list-maker#readme",
+  "dependencies": {
+    "csv-parser": "^3.0.0",
+    "csv-writer": "^1.6.0",
+    "fs": "0.0.1-security",
+    "puppeteer": "^13.5.2"
+  }
+}
