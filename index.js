@@ -32,6 +32,21 @@ async function run(pageurl) {
 
         const page = await browser.newPage();
 
+        await page.setCookie(
+            {
+                name: "PopupAd_roadblocks",
+                value: "true",
+                url: "https://www.fxstreet.com",
+                httpOnly: false
+            },
+            {
+                name: "policyAccepted",
+                value: "",
+                url: "https://www.fxstreet.com",
+                httpOnly: false
+            }
+        );
+
         await page.goto(pageurl, { waitUntil: 'load', timeout: 0 });
 
         const domainUrls = await page.evaluate((domain) => {
