@@ -6,7 +6,7 @@ const createCsvWriter = require('csv-writer').createObjectCsvWriter;
 const DOMAIN = 'https://www.fxstreet.com/';
 const PAGEWIDTH = 360;
 
-const RESTART = true;
+const RESTART = false;
 
 let unvisitedUrls = [];
 let visitedUrls = [];
@@ -40,8 +40,8 @@ const csvWriter = createCsvWriter({
         { id: 'imgsrc', title: 'IMG SRC' },
         { id: 'pagewidth', title: 'PAGE WIDTH' },
         { id: 'pageurl', title: 'PAGE URL' },
-
-    ]
+    ],
+    append:true
 });
 
 async function run(pageurl) {
