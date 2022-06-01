@@ -1,10 +1,30 @@
 const puppeteer = require('puppeteer');
+const fs = require('fs');
+
 const createCsvWriter = require('csv-writer').createObjectCsvWriter;
 
 const DOMAIN = 'https://www.fxstreet.com/';
-const PAGEWIDTH = 1440;
-const unvisitedUrls = [];
-const visitedUrls = [];
+const PAGEWIDTH = 360;
+
+const RESTART = true;
+
+let unvisitedUrls = [];
+let visitedUrls = [];
+
+try {
+    const unvisitedUrlsString = fs.readFileSync("./unvisitedUrls.json", "utf8");
+    const visitedUrlsString = fs.readFileSync("./visitedUrls.json", "utf8");
+    unvisitedUrls = JSON.parse(unvisitedUrlsString)
+    visitedUrls = JSON.parse(visitedUrlsString)
+} catch (error) {
+    console.log(error);
+}
+
+if(RESTART){
+    unvisitedUrls = [...visitedUrls, ...unvisitedUrls];
+    visitedUrls = [];
+}
+
 
 const csvWriter = createCsvWriter({
     path: 'fxsimagesattributes' + PAGEWIDTH + '.csv',
@@ -27,6 +47,7 @@ const csvWriter = createCsvWriter({
 async function run(pageurl) {
     try {
         const browser = await puppeteer.launch({
+            headless: true,
             defaultViewport: { width: PAGEWIDTH, height: 100000 }
         });
 
@@ -56,6 +77,7 @@ async function run(pageurl) {
         domainUrls.map(item => {
             if (!unvisitedUrls.includes(item) && !visitedUrls.includes(item)) {
                 unvisitedUrls.push(item);
+                fs.writeFileSync("unvisitedUrls.json", JSON.stringify(unvisitedUrls));
             }
         });
 
@@ -94,6 +116,7 @@ async function run(pageurl) {
         if (unvisitedUrls.length > 0) {
             const nextUrl = unvisitedUrls.pop();
             visitedUrls.push(nextUrl);
+            fs.writeFileSync("visitedUrls.json", JSON.stringify(visitedUrls));
             await run(nextUrl);
         } else {
             console.log('Exiting process');
